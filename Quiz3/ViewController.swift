@@ -54,7 +54,7 @@ class ViewController: UIViewController {
         let q2answer0 = Answer(answer: "Cauê Macris, deputado estadual", isCorrect: false)
         let q2answer1 = Answer(answer: "Cauê Macris, secretário da fazenda", isCorrect: false)
         let q2answer2 = Answer(answer: "Emerson Kapaz, deputado federal", isCorrect: false)
-        let q2answer3 = Answer(answer: "Emerson Kapaz, deputado federal", isCorrect: false)
+        let q2answer3 = Answer(answer: "Emerson Kapaz, deputado estadual", isCorrect: false)
         let q2answer4 = Answer(answer: "Fernando Holiday, vereador", isCorrect: false)
         let q2answer5 = Answer(answer: "Bruno Covas, secretário de obras", isCorrect: false)
         let q2answer6 = Answer(answer: "Bruno Covas, vice-prefeito", isCorrect: true)
@@ -151,7 +151,7 @@ class ViewController: UIViewController {
                 case 6:
                     buttonAnswer7.isEnabled = false;
                 default:
-                    print("foda se")
+                    print("")
                 }
             }
             
@@ -205,8 +205,30 @@ class ViewController: UIViewController {
     }
     
     func selectAnswer(_ answerId: [Int]){
-        for i in 0..<answerId.count {
-            selectAnswer(i);
+        
+        resetView()
+        var anwser: Answer!
+        
+        for i in 0..<answerId.count{
+            anwser = questions[currentQuestion].answers[answerId[i]]
+            
+            if(anwser.isCorrect == false){
+                labelFeedback.backgroundColor = UIColor.red
+                labelFeedback.text = anwser.stringAnswer + "\n\nResposta Errada!!!"
+            }
+        }
+        
+        if(anwser.isCorrect == true){
+            grade = grade + 1.0
+            labelFeedback.backgroundColor = UIColor.green
+            labelFeedback.text = anwser.stringAnswer + "\n\nResposta Correta!!!"
+            labelFeedback.textColor = UIColor.black
+        }
+        
+        if(currentQuestion < questions.count - 1 ){
+            buttonFeedback.setTitle("Próxima", for: UIControlState())
+        }else{
+            buttonFeedback.setTitle("Ver Nota", for: UIControlState())
         }
     }
     
@@ -244,6 +266,7 @@ class ViewController: UIViewController {
             buttonFeedback.setTitle("Ver Nota", for: UIControlState())
         }
     }
+    
     
     @IBAction func buttonFeebackAction(_ sender: Any) {
         print("pressionou botão feedback")
